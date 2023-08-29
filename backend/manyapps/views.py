@@ -2,6 +2,31 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import re
 
+import requests
+from bs4 import BeautifulSoup
+
+class WebCrawlerView(APIView):
+    def post(self, request):
+        url = request.data.get("inputText", "")
+
+        if not url:
+            return Response({'error': 'Please provide a valid URL'})
+
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception for non-200 status codes
+            soup = BeautifulSoup(response.content, 'html.parser')
+            links = []
+
+            for link in soup.find_all('a'):
+                href = link.get('href')
+                if href and href.startswith('http'):
+                    links.append(href)
+
+            return Response({'message': links})
+        except requests.exceptions.RequestException as e:
+            return Response({'error': str(e)})
+
 # URL Shortener
 import random
 from .models import urlShortener  # Import your urlShortener model

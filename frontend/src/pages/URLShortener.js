@@ -26,7 +26,7 @@ const URLShortener = () => {
       <textarea
         value={inputText}
         onChange={handleInputChange}
-        placeholder="Enter a long paragraph..."
+        placeholder="Enter long url..."
         rows={6}
         cols={50}
       />

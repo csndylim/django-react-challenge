@@ -25,7 +25,7 @@ const TextToHTML = () => {
       <textarea
         value={inputText}
         onChange={handleInputChange}
-        placeholder="Enter a long paragraph..."
+        placeholder="Enter text..."
         rows={6}
         cols={50}
       />

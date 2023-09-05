@@ -1,10 +1,42 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import re
-
 import requests
 from bs4 import BeautifulSoup
 
+# Dictionary
+# Weather
+class DictionaryView(APIView):
+    def post(self, request, *args, **kwargs):
+        result = request.data.get("inputText", "")
+        data = {"message": result}
+        return Response(data)
+
+
+# Weather
+class WeatherView(APIView):
+    def post(self, request, *args, **kwargs):
+        city = request.data.get("inputText", "")
+        response = requests.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&appid=164fec96a27b97680ee442e489ce3f06')
+        rawData = response.content
+        cleanedData = eval(rawData.decode())
+        try:
+            result = {
+                'City:': str(cleanedData['name']),
+                "Country Code:": str(cleanedData['sys']['country']),
+                "Coordinate:": str(cleanedData['coord']['lon']) + ' , '  
+                                + str(cleanedData['coord']['lat']),  
+                "Temperature:": str(round(((cleanedData['main']['temp'] -32) * 5/9),2)) + '°C',  
+                "Pressure:": str(cleanedData['main']['pressure']),  
+                "Humidity:": str(cleanedData['main']['humidity']),  
+            }
+        except:
+            result = {"Error.": "Please try again."}
+
+        data = {"message": result}
+        return Response(data)
+
+# Web Crawler
 class WebCrawlerView(APIView):
     def post(self, request):
         url = request.data.get("inputText", "")
@@ -14,7 +46,7 @@ class WebCrawlerView(APIView):
 
         try:
             response = requests.get(url)
-            response.raise_for_status()  # Raise an exception for non-200 status codes
+            # response.raise_for_status():  # Raise an exception for non-200 status codes
             soup = BeautifulSoup(response.content, 'html.parser')
             links = []
 
@@ -24,8 +56,9 @@ class WebCrawlerView(APIView):
                     links.append(href)
 
             return Response({'message': links})
+
         except requests.exceptions.RequestException as e:
-            return Response({'error': str(e)})
+            return Response({'error': 'Error fetching data: ' + str(e)})
 
 # URL Shortener
 import random
@@ -33,7 +66,7 @@ from .models import urlShortener  # Import your urlShortener model
 
 class URLShortenerView(APIView):
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         longurl = request.data.get("inputText", "")
         s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!*^$-_"
         shorturl = ("".join(random.sample(s, 10)))

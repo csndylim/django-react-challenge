@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from 'react';
 import axios from "axios";
 
 const URLShortener = () => {
-  const [inputText, setInputText] = useState("");
-  const [result, setResult] = useState("");
+  const [inputText, setInputText] = useState<string>("");
+  const [result, setResult] = useState<string>("");
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
   };
 
@@ -13,7 +13,6 @@ const URLShortener = () => {
     axios.post("http://localhost:8000/manyapps/urlshortener_django/", { inputText })
       .then(response => {
         setResult(response.data.message);
-        console.log(response.data.message);
       })
       .catch(error => {
         console.error("Error fetching data:", error);
@@ -27,8 +26,8 @@ const URLShortener = () => {
         value={inputText}
         onChange={handleInputChange}
         placeholder="Enter long url..."
-        rows={6}
-        cols={50}
+        rows={2}
+        cols={100}
       />
       <button onClick={handleSubmit}>Submit</button>
       {result && <div>

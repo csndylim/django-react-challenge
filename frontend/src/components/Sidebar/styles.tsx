@@ -3,7 +3,19 @@ import styled from "styled-components";
 
 import { btnReset, v } from "../../styles/variables";
 
-export const SSidebar = styled.div`
+interface SidebarProps {
+    isOpen: boolean;
+}
+
+interface LinkContainerProps {
+    isActive: boolean;
+}
+
+interface ThemeTogglerProps {
+    isActive: boolean;
+}
+
+export const SSidebar = styled.div<SidebarProps>`
     width: ${({ isOpen }) => (!isOpen ? `auto` : v.sidebarWidth)};
     background: ${({ theme }) => theme.bg};
     padding: ${v.lgSpacing};
@@ -11,7 +23,7 @@ export const SSidebar = styled.div`
     position: relative;
 `;
 
-export const SSidebarButton = styled.button`
+export const SSidebarButton = styled.button<SidebarProps>`
     ${btnReset};
     position: absolute;
     top: ${v.xxlSpacing};
@@ -65,7 +77,7 @@ export const SDivider = styled.div`
     margin: ${v.lgSpacing} 0;
 `;
 
-export const SLinkContainer = styled.div`
+export const SLinkContainer = styled.div<LinkContainerProps>`
     background: ${({ theme, isActive }) => (!isActive ? `transparent` : theme.bg3)};
     border-radius: ${v.borderRadius};
     margin: 8px 0;
@@ -114,18 +126,20 @@ export const STheme = styled.div`
     align-items: center;
     font-size: 16px;
 `;
+
 export const SThemeLabel = styled.span`
     display: block;
     flex: 1;
 `;
-export const SThemeToggler = styled.button`
+
+export const SThemeToggler = styled.button<ThemeTogglerProps>`
     ${btnReset};
     margin: 0 auto;
     cursor: pointer;
     width: 36px;
     height: 20px;
     border-radius: 10px;
-    background: ${({ theme, isActive }) => (!isActive ? theme.bg3 : theme.primary)};
+    background: ${({ theme, isActive }) => (isActive ? theme.primary : theme.bg3)};
 
     position: relative;
 `;

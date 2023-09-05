@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from 'react';
 import axios from "axios";
 
-const TextToHTML = () => {
-  const [inputText, setInputText] = useState("");
-  const [result, setResult] = useState("");
+const TextToHTML: React.FC = () => {
+  const [inputText, setInputText] = useState<string>("");
+  const [result, setResult] = useState<string>("");
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
   };
 
@@ -27,7 +27,7 @@ const TextToHTML = () => {
         onChange={handleInputChange}
         placeholder="Enter text..."
         rows={6}
-        cols={50}
+        cols={100}
       />
       <button onClick={handleSubmit}>Submit</button>
       {result && <div>

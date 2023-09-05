@@ -7,8 +7,13 @@ import TextToHTML from "./pages/TextToHTML";
 import FileUpload from "./pages/FileUpload";
 import URLShortener from "./pages/URLShortener";
 import WebCrawler from "./pages/WebCrawler";
+import Weather from "./pages/Weather";
 
-const componentsMap = {
+interface ComponentsMap {
+    [key: string]: React.ComponentType;
+}
+
+const componentsMap: ComponentsMap = {
     '/': HomePage,
     '/texttohtml': TextToHTML,
     '/fileupload': FileUpload,
@@ -16,7 +21,7 @@ const componentsMap = {
     '/webcrawler': WebCrawler,
     // '/newsproject': NewsProject,
     // '/jobportal': JobPortal,
-    // '/weather': Weather,
+    '/weather': Weather,
     // '/chat': Chat,
     // '/musicplayer': MusicPlayer,
     // '/dictionary': Dictionary,
@@ -32,16 +37,13 @@ const componentsMap = {
     // '/location': Location,
 };
 
-
-
-
-const AppRoutes = () => {
+const AppRoutes: React.FC = () => {
     return (
-         <Routes>
-         {linksArray.map(link => (
-             <Route key={link.to} path={link.to} element={React.createElement(componentsMap[link.to])} />
-         ))}
-     </Routes>
+        <Routes>
+            {linksArray.map(link => (
+                <Route key={link.to} path={link.to} element={React.createElement(componentsMap[link.to])} />
+            ))}
+        </Routes>
     );
 };
 

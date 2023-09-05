@@ -1,8 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { SLayout, SMain } from "./styles";
 
-const Layout = ({ children }) => {
+interface LayoutProps {
+    children: ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <SLayout>
             <Sidebar />

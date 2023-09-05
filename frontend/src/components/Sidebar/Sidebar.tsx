@@ -16,9 +16,7 @@ import {
     SToggleThumb,
 } from "./styles";
 
-// import { logoSVG } from "../../assets";
-
-import { AiOutlineLeft, AiOutlineSetting, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineLeft, AiOutlineSearch } from "react-icons/ai";
 
 import {
     FaHome,
@@ -47,7 +45,14 @@ import {
 import { ThemeContext } from "./../../App";
 import { useLocation } from "react-router-dom";
 
-export const linksArray = [
+interface Link {
+    label: string;
+    icon: JSX.Element;
+    to: string;
+    notification: number;
+}
+
+export const linksArray: Link[] = [
     {
         label: "Home",
         icon: <FaHome />,
@@ -176,13 +181,18 @@ export const linksArray = [
     },
 ];
 
+interface ThemeProps {
+    theme: string;
+    setTheme: React.Dispatch<React.SetStateAction<string>>;
+}
 
 const Sidebar = () => {
-    const searchRef = useRef(null);
-    const [searchResults, setSearchResults] = useState([]);
-    const { setTheme, theme } = useContext(ThemeContext);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [searchOpen, setSearchOpen] = useState(false); // Track search input state
+    const searchRef = useRef<HTMLInputElement | null>(null);
+    const [searchResults, setSearchResults] = useState<Link[]>([]);
+    const themeContext = useContext<ThemeProps | null>(ThemeContext);
+    const { setTheme, theme } = themeContext || { setTheme: () => {}, theme: "" };
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [searchOpen, setSearchOpen] = useState<boolean>(false);
     const { pathname } = useLocation();
 
     const toggleSidebar = () => {
@@ -193,26 +203,25 @@ const Sidebar = () => {
 
     const searchClickHandler = () => {
         setSidebarOpen(true);
-        setSearchOpen(true); // Open search input
+        setSearchOpen(true);
         setTimeout(() => {
-            searchRef.current.focus(); // Focus after a delay to ensure it's rendered
+            if (searchRef.current) {
+                searchRef.current.focus();
+            }
         }, 0);
     };
 
-    const handleSearchInputChange = (event) => {
+    const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = event.target.value.toLowerCase();
-    
-        // Filter linksArray based on the search term
+
         const filteredLinks = linksArray.filter((link) =>
             link.label.toLowerCase().includes(searchTerm)
         );
-    
-        console.log('Filtered Links:', filteredLinks); // Debugging output
-    
+
         setSearchResults(filteredLinks);
     };
 
-    return (
+    return (  
         <SSidebar isOpen={sidebarOpen}>
             <SSidebarButton isOpen={sidebarOpen} onClick={toggleSidebar}>
                 <AiOutlineLeft />
@@ -271,7 +280,7 @@ const Sidebar = () => {
                     <SThemeLabel>Dark Mode</SThemeLabel>
                     <SThemeToggler
                         isActive={theme === "dark"}
-                        onClick={() => setTheme((prev) => (prev === "light" ? "dark" : "light"))}
+                        onClick={() => setTheme && setTheme((prev) => (prev === "light" ? "dark" : "light"))}
                     >
                         <SToggleThumb style={theme === "dark" ? { right: "1px" } : {}} />
                     </SThemeToggler>
@@ -279,16 +288,6 @@ const Sidebar = () => {
             )}
         </SSidebar>
     );
-    
 };
-
-
-
-const secondaryLinksArray = [
-    {
-        label: "Settings",
-        icon: <AiOutlineSetting />,
-    }
-];
 
 export default Sidebar;

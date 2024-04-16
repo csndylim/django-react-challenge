@@ -84,101 +84,11 @@ export const linksArray: Link[] = [
         notification: 0,
     },
     {
-        label: "News Project",
-        icon: <FaNewspaper />,
-        to: "/newsproject",
-        notification: 0,
-    },
-    {
-        label: "Job Portal",
-        icon: <FaBriefcase />,
-        to: "/jobportal",
-        notification: 0,
-    },
-    {
         label: "Weather",
         icon: <FaCloudSun />,
         to: "/weather",
         notification: 0,
-    },
-    {
-        label: "Chat",
-        icon: <FaComments />,
-        to: "/chat",
-        notification: 0,
-    },
-    {
-        label: "Music Player",
-        icon: <FaMusic />,
-        to: "/musicplayer",
-        notification: 0,
-    },
-    {
-        label: "Dictionary",
-        icon: <FaBook />,
-        to: "/dictionary",
-        notification: 0,
-    },
-    {
-        label: "Blog",
-        icon: <FaBlog />,
-        to: "/blog",
-        notification: 0,
-    },
-    {
-        label: "Voting System",
-        icon: <FaVoteYea />,
-        to: "/votingsystem",
-        notification: 0,
-    },
-    {
-        label: "Video and Audio Calling",
-        icon: <FaPhone />,
-        to: "/calling",
-        notification: 0,
-    },
-    {
-        label: "Quiz",
-        icon: <FaQuestionCircle />,
-        to: "/quiz",
-        notification: 0,
-    },
-    {
-        label: "Railway Reservation",
-        icon: <FaTrain />,
-        to: "/railwayreservation",
-        notification: 0,
-    },
-    {
-        label: "Plot Routes",
-        icon: <FaMapMarkedAlt />,
-        to: "/plotroutes",
-        notification: 0,
-    },
-    {
-        label: "Calories Calculator",
-        icon: <FaCalculator />,
-        to: "/caloriescalculator",
-        notification: 0,
-    },
-    {
-        label: "Note Keeper",
-        icon: <FaStickyNote />,
-        to: "/notekeeper",
-        notification: 0,
-    },
-    {
-        label: "Bus Reservation",
-        icon: <FaBus />,
-        to: "/busreservation",
-        notification: 0,
-    },
-    {
-        label: "Location",
-        icon: <FaMapMarkerAlt />,
-        to: "/location",
-        notification: 0,
-    },
+    }
 ];
 
 interface ThemeProps {
